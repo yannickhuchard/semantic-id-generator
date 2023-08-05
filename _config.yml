@@ -1,0 +1,30 @@
+#theme: jekyll-theme-minimal
+remote_theme: b2a3e8/jekyll-theme-console
+title: Semantic ID Generator
+description: Semantic ID Generator is a JavaScript/NodeJS library that generate semantically structured unique identifiers (Semantic ID), according to AMASE.io Data Architecture principles.
+author:
+  name: Yannick Huchard
+  url: https://yannickhuchard.com
+  email: yannick@amase.io
+
+# specific to theme b2a3e8/jekyll-theme-console
+# see: https://github.com/b2a3e8/jekyll-theme-console
+# demo: https://b2a3e8.github.io/jekyll-theme-console-demo-dark/ 
+style: dark 
+
+
+# SEO settings
+title_separator: "-"
+social:
+  - name: Twitter
+    url: https://twitter.com/YannickHuchard
+  - name: GitHub
+    url: https://github.com/yannickhuchard
+  - name: LinkedIn
+    url: https://www.linkedin.com/in/yhuchard
+  - name: Medium
+    url: https://yannick-huchard.medium.com/
+
+
+# Enable Google Analytics
+google_analytics: XX-XXXXXXXXX-X

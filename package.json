@@ -1,0 +1,25 @@
+{
+  "name": "semantic-id-generator",
+  "version": "1.0.0",
+  "description": "Generate Semantic Identifiers.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "Semantic",
+    "ID",
+    "Identifier",
+    "Generator"
+  ],
+  "homepage": "https://github.com/yannickhuchard/semantic-id-generator#readme",
+  "author": "Yannick HUCHARD",
+  "license": "MIT",
+  "dependencies": {
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0"
+  }
+}
