@@ -1,6 +1,6 @@
-const chai = require('chai');
-const SemanticIDGenerator = require('../src/semantic-id-generator');
-const expect = chai.expect;
+import { expect } from 'chai';
+import SemanticIDGenerator from '../src/semantic-id-generator.js';
+
 
 describe('03 | SemanticIDGenerator | Test Performances ', function() {
     this.timeout(0); // Disable Mocha's default timeout for this test suite

@@ -3,14 +3,14 @@
 
     A Semantic ID is an identifier that implements following AMASE (https://amase.io) data architecture principles:
     - Unique
-    - Reckognizable by humans and artifial intelligence
-    - Semantically coherent to derive
-    - Consistant across all data spaces defined by the architects
-    - Issue from a configurable Semantic Id Factory
+    - Recognizable by humans and artificial intelligence
+    - Semantically coherent according to semantic rules defined by the data architects/engineers
+    - Consistent across all data spaces defined by the architects
+    - Issued from a configurable Semantic Id Factory
 	
     @created by Yannick Huchard
     @link https://yannickhuchard.com
-    @date 08/07/2023
+    @date 08/05/2025
 
     Dependencies:
         - crypto
@@ -21,13 +21,9 @@
 
  */
 
-'use strict';
-
 //----------------------------------
 //            Import Modules
 //----------------------------------
-const SemanticIDGenerator = require('./src/semantic-id-generator');
+import SemanticIDGenerator from './src/semantic-id-generator.js';
 
-
-
-module.exports = SemanticIDGenerator;
+export default SemanticIDGenerator;

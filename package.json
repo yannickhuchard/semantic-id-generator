@@ -1,25 +1,52 @@
 {
   "name": "semantic-id-generator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Generate Semantic Identifiers.",
+  "type": "module",
   "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test:typescript": "mocha test/typescript-*.test.ts --require ts-node/register",
+    "build": "tsc",
+    "type-check": "tsc --noEmit",
+    "example": "ts-node examples/typescript-example.ts"
   },
   "keywords": [
-    "Semantic",
-    "ID",
-    "Identifier",
-    "Generator"
+    "semantic",
+    "id",
+    "identifier",
+    "generator",
+    "uuid",
+    "random",
+    "string",
+    "typescript",
+    "amase",
+    "data-architecture"
   ],
   "homepage": "https://github.com/yannickhuchard/semantic-id-generator#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yannickhuchard/semantic-id-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yannickhuchard/semantic-id-generator/issues"
+  },
   "author": "Yannick HUCHARD",
   "license": "MIT",
   "dependencies": {
-    "uuid": "^9.0.0"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "chai": "^4.3.7",
-    "mocha": "^10.2.0"
+    "@types/chai": "^5.2.2",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^24.2.0",
+    "chai": "^5.2.1",
+    "mocha": "^11.7.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=12.0.0"
   }
 }

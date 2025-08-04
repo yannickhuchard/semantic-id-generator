@@ -1,0 +1,86 @@
+{
+  "eng": [
+    "apple", "banana", "cherry", "dragon", "eagle", "forest", "garden", "house",
+    "island", "jungle", "knight", "lemon", "mountain", "ocean", "planet", "queen",
+    "river", "sunset", "tiger", "umbrella", "village", "window", "yellow", "zebra",
+    "anchor", "bridge", "castle", "diamond", "elephant", "firefly", "guitar", "hammer",
+    "iceberg", "jasmine", "kangaroo", "lighthouse", "moonlight", "nightingale", "octopus",
+    "penguin", "rainbow", "sapphire", "tornado", "unicorn", "volcano", "whisper",
+    "xylophone", "yacht", "zeppelin", "alpine", "breeze", "cascade", "dolphin", "echo",
+    "falcon", "glacier", "horizon", "infinity", "jupiter", "kaleidoscope", "lagoon",
+    "meadow", "nebula", "oasis", "phantom", "quartz", "radiant", "serenity", "tranquil",
+    "utopia", "velvet", "xenon", "yearning", "zenith", "butterfly", "crystal", "symphony"
+  ],
+  "fra": [
+    "pomme", "banane", "cerise", "aigle", "foret", "jardin", "maison",
+    "ile", "chevalier", "citron", "montagne", "planete", "reine",
+    "riviere", "coucher", "tigre", "parapluie", "fenetre", "jaune", "zebre",
+    "ancre", "pont", "chateau", "diamant", "elephant", "luciole", "guitare", "marteau",
+    "jasmin", "kangourou", "phare", "clair", "rossignol", "pieuvre",
+    "manchot", "arcenciel", "saphir", "tornade", "licorne", "volcan", "chuchotement",
+    "xylophone", "alpin", "brise", "cascade", "dauphin", "echo",
+    "faucon", "glacier", "infini", "kaleidoscope", "lagune",
+    "prairie", "nebuleuse", "fantome", "radiant", "serenite", "tranquille",
+    "utopie", "velours", "desir", "papillon", "cristal", "symphonie"
+  ],
+  "spa": [
+    "manzana", "platano", "cereza", "aguila", "bosque", "casa",
+    "isla", "caballero", "limon", "montana", "oceano", "planeta", "reina",
+    "rio", "atardecer", "paraguas", "pueblo", "ventana", "amarillo", "cebra",
+    "ancla", "puente", "castillo", "diamante", "elefante", "luciernaga", "guitarra", "martillo",
+    "jazmin", "canguro", "faro", "luna", "ruisenor", "pulpo",
+    "pinguino", "arcoiris", "zafiro", "unicornio", "susurro",
+    "xilofono", "alpino", "brisa", "cascada", "delfin", "eco",
+    "halcon", "glaciar", "horizonte", "infinito", "caleidoscopio", "laguna",
+    "prado", "nebulosa", "fantasma", "cuarzo", "radiante", "serenidad", "tranquilo",
+    "terciopelo", "anhelo", "cenit", "mariposa", "cristal", "sintonia"
+  ],
+  "ita": [
+    "mela", "ciliegia", "drago", "aquila", "foresta", "giardino",
+    "isola", "giungla", "cavaliere", "limone", "montagna", "pianeta", "regina",
+    "fiume", "tramonto", "ombrello", "villaggio", "finestra", "giallo",
+    "ancora", "ponte", "castello", "diamante", "elefante", "lucciola", "chitarra", "martello",
+    "gelsomino", "canguro", "faro", "luna", "usignolo", "polpo",
+    "pinguino", "arcobaleno", "zaffiro", "unicorno", "vulcano", "sussurro",
+    "xilofono", "alpino", "brezza", "cascata", "delfino", "eco",
+    "falco", "ghiacciaio", "orizzonte", "infinito", "caleidoscopio", "laguna",
+    "prato", "nebulosa", "oasi", "fantasma", "quarzo", "radiante", "serenita", "tranquillo",
+    "velluto", "desiderio", "zenit", "farfalla", "cristallo", "sinfonia"
+  ],
+  "deu": [
+    "apfel", "kirsche", "drache", "adler", "wald", "garten", "haus",
+    "insel", "dschungel", "ritter", "zitrone", "berg", "ozean", "planet", "konigin",
+    "fluss", "sonnenuntergang", "tiger", "regenschirm", "dorf", "fenster", "gelb",
+    "anker", "brucke", "schloss", "diamant", "elefant", "gluhwurmchen", "gitarre", "hammer",
+    "eisberg", "jasmin", "kanguru", "leuchtturm", "mond", "nachtigall", "oktopus",
+    "pinguin", "regenbogen", "saphir", "einhorn", "vulkan", "flustern",
+    "xylophon", "alpin", "briese", "wasserfall", "delphin", "echo",
+    "falke", "gletscher", "horizont", "unendlich", "kaleidoskop", "lagune",
+    "wiese", "nebel", "oase", "geist", "quarz", "strahlend", "gelassenheit", "ruhig",
+    "utopie", "samt", "sehnsucht", "zenit", "schmetterling", "kristall", "symphonie"
+  ],
+  "nld": [
+    "appel", "kers", "draak", "adelaar", "bos", "tuin", "huis",
+    "eiland", "ridder", "citroen", "berg", "oceaan", "planeet", "koningin",
+    "rivier", "zonsondergang", "tijger", "paraplu", "dorp", "raam", "geel",
+    "anker", "brug", "kasteel", "diamant", "olifant", "glimworm", "gitaar", "hamer",
+    "ijsberg", "jasmijn", "kangoeroe", "vuurtoren", "maan", "nachtegaal", "octopus",
+    "pinguin", "regenboog", "saffier", "eenhoorn", "vulkaan", "fluisteren",
+    "xylofoon", "alpien", "bries", "waterval", "dolfijn", "echo",
+    "valk", "gletscher", "horizon", "oneindig", "kaleidoscoop", "lagune",
+    "weide", "nevel", "oase", "geest", "kwarts", "stralend", "sereniteit", "rustig",
+    "fluweel", "verlangen", "zenit", "vlinder", "kristal", "symfonie"
+  ],
+  "wol": [
+    "pom", "banan", "seris", "aigle", "foret", "jardin", "maison",
+    "ile", "chevalier", "citron", "montagne", "ocean", "planete", "reine",
+    "riviere", "coucher", "tigre", "parapluie", "village", "fenetre", "jaune", "zebre",
+    "ancre", "pont", "chateau", "diamant", "elephant", "luciole", "guitare", "marteau",
+    "jasmin", "kangourou", "phare", "clair", "rossignol", "pieuvre",
+    "manchot", "arcenciel", "saphir", "tornade", "licorne", "volcan", "chuchotement",
+    "xylophone", "alpin", "brise", "cascade", "dauphin", "echo",
+    "faucon", "glacier", "horizon", "infini", "kaleidoscope", "lagune",
+    "prairie", "nebuleuse", "oasis", "fantome", "quartz", "radiant", "serenite", "tranquille",
+    "utopie", "velours", "desir", "zenith", "papillon", "cristal", "symphonie"
+  ]
+} 

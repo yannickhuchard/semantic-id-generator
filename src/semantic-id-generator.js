@@ -3,7 +3,7 @@
 	
     @created by Yannick Huchard
     @link https://yannickhuchard.com
-    @date 08/07/2023
+    @date 08/05/2025
 
     Dependencies:
         - crypto
@@ -13,8 +13,8 @@
 
  */
 
-const crypto = require('crypto');
-const { _generateRandomUnicodeString, _generateRandomVisibleUnicodeString, _generateRandomNumberString, _generateRandomAlphaNumericString, _generateRandomHexadecimalString } = require('./string-generators');
+import crypto from 'crypto';
+import { _generateRandomUnicodeString, _generateRandomVisibleUnicodeString, _generateRandomNumberString, _generateRandomAlphaNumericString, _generateRandomHexadecimalString, _generateRandomBase64String, _generateRandomPassphraseString } from './string-generators.js';
 
 
 
@@ -23,7 +23,9 @@ const stringGenerationStrategyToFunctionMap = {
     "visible characters": _generateRandomVisibleUnicodeString,
     "numbers": _generateRandomNumberString,
     "alphanumeric": _generateRandomAlphaNumericString,
-    "hexadecimal": _generateRandomHexadecimalString
+    "hexadecimal": _generateRandomHexadecimalString,
+    "base64": _generateRandomBase64String,
+    "passphrase": _generateRandomPassphraseString
 };
 
 
@@ -62,14 +64,6 @@ class SemanticIDGenerator {
             ],
             ...configuration,
         };
-
-        this.configuration.compartments.forEach(compartment => {
-            const strategy = stringGenerationStrategyToFunctionMap[compartment.generationStrategy];
-            if (!strategy || typeof strategy !== 'function') {
-                throw new Error('Invalid generationStrategy. Check the documentation for valid strategies.');
-            }
-        });
-
 
         if (this.configuration.compartments) {
             this.configuration.compartments.forEach(compartment => {
@@ -126,4 +120,4 @@ class SemanticIDGenerator {
 
 }
 
-module.exports = SemanticIDGenerator;
+export default SemanticIDGenerator;

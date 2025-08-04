@@ -3,7 +3,7 @@
 	
     @created by Yannick Huchard
     @link https://yannickhuchard.com
-    @date 08/07/2023
+    @date 08/05/2025
 
     Dependencies:
         - chai
@@ -13,11 +13,8 @@
 
  */
 
-    'use strict';
-
-const chai = require('chai');
-const SemanticIDGenerator = require('../src/semantic-id-generator');
-const expect = chai.expect;
+import { expect } from 'chai';
+import SemanticIDGenerator from '../src/semantic-id-generator.js';
 
 describe('01 | SemanticIDGenerator | Test Main', function() {
 
