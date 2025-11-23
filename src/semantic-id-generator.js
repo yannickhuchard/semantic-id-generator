@@ -13,11 +13,8 @@
 
  */
 
-import crypto from 'crypto';
 import { _generateRandomUnicodeString, _generateRandomVisibleUnicodeString, _generateRandomNumberString, _generateRandomAlphaNumericString, _generateRandomHexadecimalString, _generateRandomBase64String, _generateRandomPassphraseString } from './string-generators.js';
-import { resolvePresetConfiguration } from './domain-presets.js';
-
-
+import { normalizeConfiguration } from './configuration-utils.js';
 
 const stringGenerationStrategyToFunctionMap = {
     "all characters": _generateRandomUnicodeString,
@@ -31,23 +28,6 @@ const stringGenerationStrategyToFunctionMap = {
 
 
 
-const DEFAULT_CONFIGURATION = {
-    dataConceptSeparator: '|',
-    compartmentSeparator: '-',
-    compartments: [
-        { name: 'part1', length: 4, generationStrategy: "visible characters"},
-        { name: 'part2', length: 8, generationStrategy: "visible characters"},
-        { name: 'part3', length: 12, generationStrategy: "visible characters"}
-    ],
-};
-
-const cloneCompartments = (compartments) => {
-    if (!Array.isArray(compartments)) {
-        return [];
-    }
-    return compartments.map(compartment => ({ ...compartment }));
-};
-
 /**
  * Main class for Semantic ID Generator
  */
@@ -58,56 +38,9 @@ class SemanticIDGenerator {
      * @param {*} configuration
      */
     constructor(configuration = {}) {
-        const { preset, ...runtimeConfiguration } = configuration;
-
-        if (preset && typeof preset !== 'string') {
-            throw new Error('Invalid preset. It should be a string.');
-        }
-
-        if (runtimeConfiguration.dataConceptSeparator && typeof runtimeConfiguration.dataConceptSeparator !== 'string') {
-            throw new Error('Invalid dataConceptSeparator. It should be a string.');
-        }
-
-        if (runtimeConfiguration.compartmentSeparator && typeof runtimeConfiguration.compartmentSeparator !== 'string') {
-            throw new Error('Invalid compartmentSeparator. It should be a string.');
-        }
-
-        if (runtimeConfiguration.compartments && !Array.isArray(runtimeConfiguration.compartments)) {
-            throw new Error('Invalid compartments. It should be an array.');
-        }
-
-        const presetConfiguration = preset ? resolvePresetConfiguration(preset, runtimeConfiguration) : null;
-
-        const finalConfiguration = presetConfiguration
-            ? { ...DEFAULT_CONFIGURATION, ...presetConfiguration }
-            : { ...DEFAULT_CONFIGURATION, ...runtimeConfiguration };
-
-        const baseCompartments = finalConfiguration.compartments ?? DEFAULT_CONFIGURATION.compartments;
-
-        this.configuration = {
-            ...finalConfiguration,
-            preset: preset ?? undefined,
-            compartments: cloneCompartments(baseCompartments)
-        };
-
-        if (this.configuration.compartments) {
-            this.configuration.compartments.forEach(compartment => {
-                // Check if 'length' is a positive integer
-                if (!Number.isInteger(compartment.length) || compartment.length <= 0) {
-                    throw new Error('Invalid compartment length. It should be a positive integer.');
-                }
-        
-                // Check if 'name' is a non-empty string
-                if (typeof compartment.name !== 'string' || compartment.name.trim() === '') {
-                    throw new Error('Invalid compartment name. It should be a non-empty string.');
-                }
-        
-                const strategy = stringGenerationStrategyToFunctionMap[compartment.generationStrategy];
-                if (!strategy || typeof strategy !== 'function') {
-                    throw new Error('Invalid generationStrategy. Check the documentation for valid strategies.');
-                }
-            });
-        }
+        this.configuration = normalizeConfiguration(configuration, {
+            strategyResolver: (strategy) => typeof stringGenerationStrategyToFunctionMap[strategy] === 'function'
+        });
     }
 
 

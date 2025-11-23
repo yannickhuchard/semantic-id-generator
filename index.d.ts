@@ -6,7 +6,7 @@
  * @date 08/05/2025
  */
 
-import { SemanticIDGeneratorConfig, DomainPresetName, DomainPresetConfig, DomainPresetMetadata, SchemaArtifacts, SchemaFormat, JsonLdSchema, ResolvedSemanticIDGeneratorConfig } from './types';
+import { SemanticIDGeneratorConfig, DomainPresetName, DomainPresetConfig, DomainPresetMetadata, SchemaArtifacts, SchemaFormat, JsonLdSchema, ResolvedSemanticIDGeneratorConfig, SemanticIDInspectionResult } from './types';
 
 export * from './types';
 
@@ -44,6 +44,13 @@ declare class SemanticIDGenerator {
 
 export default SemanticIDGenerator;
 export { SemanticIDGenerator };
+
+declare class SemanticIDInspector {
+  constructor(configuration?: SemanticIDGeneratorConfig);
+  inspect(semanticId: string, configurationOverrides?: SemanticIDGeneratorConfig): SemanticIDInspectionResult;
+}
+
+export { SemanticIDInspector };
 
 export function getDomainPreset(name: DomainPresetName): DomainPresetConfig;
 export function getPresetMetadata(name: DomainPresetName): DomainPresetMetadata;

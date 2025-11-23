@@ -62,6 +62,7 @@ node --import ./scripts/register-ts-node.mjs code_samples/typescript-tooling/bui
 - **Configurable compartments** – mix strategies (visible, numeric, base64, passphrase, etc.).
 - **30 domain presets** – hydrate a full configuration with `preset: '<domain>'`.
 - **Machine-readable semantics** – export JSON-LD & OWL straight into graph stores.
+- **Inspector & validator** – parse existing IDs, auto-detect presets, and flag compartment-level issues.
 - **TypeScript-first DX** – full typings, builders, and runtime validation helpers.
 - **Battle-tested** – extensive mocha suites, TypeScript compilation tests, and published benchmarks.
 
@@ -99,6 +100,40 @@ console.log(jsonld['sig:entitySchema']); // Contract
 ```
 
 👉 **Full catalog, metadata APIs, and schema export details live in [`docs/domain-presets.md`](docs/domain-presets.md).**
+
+## Semantic ID Inspector
+
+Use `SemanticIDInspector` when you need to validate or explain IDs that were minted elsewhere (partner systems, historical datasets, governance bots, etc.). The inspector automatically detects domain presets from the data concept prefix, rehydrates the expected configuration, and returns a structured report per compartment.
+
+```javascript
+import SemanticIDGenerator, { SemanticIDInspector } from 'semantic-id-generator';
+
+const generator = new SemanticIDGenerator({ preset: 'contract' });
+const inspector = new SemanticIDInspector();
+
+const id = generator.generateSemanticID('contract');
+const report = inspector.inspect(id);
+
+console.log(report.isValid);          // true
+console.log(report.preset);           // "contract"
+console.log(report.metadata.schemaClass); // "schema:Contract"
+
+const [concept, rest] = id.split('|');
+const [first, second, third] = rest.split('-');
+const tamperedSecond = `${second.slice(0, 2)}|${second.slice(2)}`;
+const tamperedId = `${concept}|${first}-${tamperedSecond}-${third}`;
+
+const failure = inspector.inspect(tamperedId);
+console.log(failure.isValid); // false
+console.log(failure.compartments[1].issues);
+// ["Value contains reserved separator \"|\".", "..."]
+```
+
+- Instantiate the inspector without arguments to rely on preset auto-detection.
+- Pass a configuration or preset (either in the constructor or per-call `inspect(id, overrides)`) to validate bespoke separators or custom compartment layouts.
+- Each inspection result surfaces global issues, compartment-level diagnostics, and (when available) the preset metadata so you can feed the findings straight into governance dashboards or ETL quality gates.
+
+👉 Run the dedicated sample in [`code_samples/semantic-id-inspector/basic-validation`](code_samples/semantic-id-inspector/basic-validation) to see both a passing and failing inspection end-to-end.
 
 ## Usage & Configuration
 - Advanced configuration patterns (custom compartments, strategies, passphrase languages)

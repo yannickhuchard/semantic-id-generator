@@ -257,6 +257,32 @@ export interface SchemaArtifacts {
  */
 export type SchemaFormat = 'jsonld' | 'owl';
 
+export interface CompartmentInspection {
+  name: string;
+  position: number;
+  expectedLength: number;
+  generationStrategy: GenerationStrategy;
+  value: string;
+  isValid: boolean;
+  issues: string[];
+}
+
+export interface SemanticIDInspectionResult {
+  semanticId: string;
+  dataConceptName: string;
+  preset?: DomainPresetName;
+  metadata?: DomainPresetMetadata | null;
+  configuration: {
+    dataConceptSeparator: string;
+    compartmentSeparator: string;
+    languageCode?: LanguageCode;
+    compartmentCount: number;
+  };
+  isValid: boolean;
+  issues: string[];
+  compartments: CompartmentInspection[];
+}
+
 export function getDomainPreset(name: DomainPresetName): DomainPresetConfig;
 export function getPresetMetadata(name: DomainPresetName): DomainPresetMetadata;
 export function listDomainPresets(): DomainPresetName[];

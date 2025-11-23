@@ -17,14 +17,7 @@
 
 import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const WORD_LISTS_CACHE_KEY = Symbol.for('semantic-id-generator.wordLists');
-const WORD_LISTS_ERROR_KEY = Symbol.for('semantic-id-generator.wordListsError');
+import { getWordLists } from './word-lists.js';
 
 /**
      * Generates a random string of a specific length with Unicode characters.
@@ -247,7 +240,7 @@ function _generateRandomPassphraseString(length, configuration) {
     }
 
     // Load word lists from JSON file (cached after first read)
-    const wordLists = _getWordLists();
+    const wordLists = getWordLists();
 
     // Determine which words to use based on configuration
     let commonWords = [];
@@ -289,29 +282,6 @@ function _generateRandomPassphraseString(length, configuration) {
     
     // Ensure the string is exactly the requested length
     return string.substring(0, length);
-}
-
-function _getWordLists() {
-    const globalCache = globalThis;
-    if (globalCache[WORD_LISTS_CACHE_KEY]) {
-        return globalCache[WORD_LISTS_CACHE_KEY];
-    }
-
-    if (globalCache[WORD_LISTS_ERROR_KEY]) {
-        throw globalCache[WORD_LISTS_ERROR_KEY];
-    }
-
-    try {
-        const wordListsPath = path.join(__dirname, 'data', 'word-lists.json');
-        const wordListsData = fs.readFileSync(wordListsPath, 'utf8');
-        const parsed = JSON.parse(wordListsData);
-        globalCache[WORD_LISTS_CACHE_KEY] = parsed;
-        return parsed;
-    } catch (error) {
-        const failure = new Error('Failed to load word lists from data/word-lists.json');
-        globalCache[WORD_LISTS_ERROR_KEY] = failure;
-        throw failure;
-    }
 }
 
 function _wordContainsSeparator(word, separators) {

@@ -12,6 +12,7 @@ Each folder in `code_samples/` focuses on a single feature of the Semantic ID Ge
 | String strategies | Passphrase with language scoping | `code_samples/string-strategies/passphrase-language/sample.js` | `node code_samples/string-strategies/passphrase-language/sample.js` |
 | Domain presets | Contract preset generation | `code_samples/domain-presets/generate-contract-id/sample.js` | `node code_samples/domain-presets/generate-contract-id/sample.js` |
 | Domain presets | Inspect preset metadata | `code_samples/domain-presets/list-metadata/sample.js` | `node code_samples/domain-presets/list-metadata/sample.js` |
+| Semantic ID inspector | Validate & explain IDs | `code_samples/semantic-id-inspector/basic-validation/sample.js` | `node code_samples/semantic-id-inspector/basic-validation/sample.js` |
 | Schema export | JSON-LD artifact | `code_samples/schema-export/jsonld/sample.js` | `node code_samples/schema-export/jsonld/sample.js` |
 | Schema export | OWL artifact | `code_samples/schema-export/owl/sample.js` | `node code_samples/schema-export/owl/sample.js` |
 | TypeScript tooling | Builder pattern | `code_samples/typescript-tooling/builder-pattern/sample.ts` | `node --import ./scripts/register-ts-node.mjs code_samples/typescript-tooling/builder-pattern/sample.ts` |
