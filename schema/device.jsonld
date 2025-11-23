@@ -1,0 +1,40 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "sig": "https://semantic-id-generator.dev/terms#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "https://semantic-id-generator.dev/schema/device",
+  "@type": "sig:SemanticIdentifier",
+  "schema:name": "Device Semantic Identifier",
+  "schema:description": "Identifiers for physical or IoT devices.",
+  "schema:schemaVersion": "1.0.0",
+  "sig:entitySchema": "Device",
+  "sig:entitySchemaIRI": "https://semantic-id-generator.dev/entity/Device",
+  "sig:domainClass": "schema:Product",
+  "sig:dataConceptSeparator": "|",
+  "sig:compartmentSeparator": "-",
+  "sig:compartments": [
+    {
+      "@type": "sig:Compartment",
+      "schema:name": "semantic_prefix",
+      "sig:length": 4,
+      "sig:generationStrategy": "visible characters",
+      "sig:position": 0
+    },
+    {
+      "@type": "sig:Compartment",
+      "schema:name": "numeric_core",
+      "sig:length": 8,
+      "sig:generationStrategy": "numbers",
+      "sig:position": 1
+    },
+    {
+      "@type": "sig:Compartment",
+      "schema:name": "semantic_suffix",
+      "sig:length": 24,
+      "sig:generationStrategy": "hexadecimal",
+      "sig:position": 2
+    }
+  ]
+}

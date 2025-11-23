@@ -1,0 +1,40 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "sig": "https://semantic-id-generator.dev/terms#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@id": "https://semantic-id-generator.dev/schema/corporate_customer",
+  "@type": "sig:SemanticIdentifier",
+  "schema:name": "CorporateCustomer Semantic Identifier",
+  "schema:description": "Semantic identifier for a customer that is a legal entity.",
+  "schema:schemaVersion": "1.0.0",
+  "sig:entitySchema": "CorporateCustomer",
+  "sig:entitySchemaIRI": "https://semantic-id-generator.dev/entity/CorporateCustomer",
+  "sig:domainClass": "schema:Organization",
+  "sig:dataConceptSeparator": "|",
+  "sig:compartmentSeparator": "-",
+  "sig:compartments": [
+    {
+      "@type": "sig:Compartment",
+      "schema:name": "semantic_prefix",
+      "sig:length": 4,
+      "sig:generationStrategy": "visible characters",
+      "sig:position": 0
+    },
+    {
+      "@type": "sig:Compartment",
+      "schema:name": "numeric_core",
+      "sig:length": 8,
+      "sig:generationStrategy": "numbers",
+      "sig:position": 1
+    },
+    {
+      "@type": "sig:Compartment",
+      "schema:name": "semantic_suffix",
+      "sig:length": 24,
+      "sig:generationStrategy": "hexadecimal",
+      "sig:position": 2
+    }
+  ]
+}

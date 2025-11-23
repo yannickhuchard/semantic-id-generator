@@ -25,5 +25,15 @@
 //            Import Modules
 //----------------------------------
 import SemanticIDGenerator from './src/semantic-id-generator.js';
+import { buildSchemaForPreset, exportSchema } from './src/schema-exporter.js';
+import { getDomainPreset, getPresetMetadata, listDomainPresets } from './src/domain-presets.js';
+
+export {
+    buildSchemaForPreset,
+    exportSchema,
+    getDomainPreset,
+    getPresetMetadata,
+    listDomainPresets
+};
 
 export default SemanticIDGenerator;

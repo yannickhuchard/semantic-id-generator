@@ -19,6 +19,41 @@ export type GenerationStrategy =
   | 'passphrase';
 
 /**
+ * Supported domain presets
+ */
+export type DomainPresetName =
+  | 'person'
+  | 'individual_customer'
+  | 'corporate_customer'
+  | 'employee'
+  | 'supplier'
+  | 'partner'
+  | 'organization'
+  | 'department'
+  | 'role'
+  | 'product'
+  | 'product_category'
+  | 'device'
+  | 'asset'
+  | 'inventory_item'
+  | 'contract'
+  | 'order'
+  | 'purchase_order'
+  | 'invoice'
+  | 'shipment'
+  | 'payment_transaction'
+  | 'financial_account'
+  | 'budget'
+  | 'project'
+  | 'task'
+  | 'support_case'
+  | 'document'
+  | 'policy_document'
+  | 'location'
+  | 'event'
+  | 'dataset';
+
+/**
  * Supported language codes for passphrase generation
  */
 export type LanguageCode = 'eng' | 'fra' | 'spa' | 'ita' | 'deu' | 'nld' | 'wol';
@@ -47,6 +82,8 @@ export interface SemanticIDGeneratorConfig {
   compartments?: Compartment[];
   /** Language code for passphrase generation (optional) */
   languageCode?: LanguageCode;
+  /** Domain preset shorthands */
+  preset?: DomainPresetName;
 }
 
 /**
@@ -73,7 +110,7 @@ export interface StringGenerators {
    * @param configuration - Generator configuration
    * @returns Random Unicode string
    */
-  _generateRandomUnicodeString(length: number, configuration: Required<SemanticIDGeneratorConfig>): string;
+  _generateRandomUnicodeString(length: number, configuration: ResolvedSemanticIDGeneratorConfig): string;
 
   /**
    * Generates a random visible Unicode string
@@ -81,7 +118,7 @@ export interface StringGenerators {
    * @param configuration - Generator configuration
    * @returns Random visible Unicode string
    */
-  _generateRandomVisibleUnicodeString(length: number, configuration: Required<SemanticIDGeneratorConfig>): string;
+  _generateRandomVisibleUnicodeString(length: number, configuration: ResolvedSemanticIDGeneratorConfig): string;
 
   /**
    * Generates a random numeric string
@@ -89,7 +126,7 @@ export interface StringGenerators {
    * @param configuration - Generator configuration
    * @returns Random numeric string
    */
-  _generateRandomNumberString(length: number, configuration: Required<SemanticIDGeneratorConfig>): string;
+  _generateRandomNumberString(length: number, configuration: ResolvedSemanticIDGeneratorConfig): string;
 
   /**
    * Generates a random alphanumeric string
@@ -97,7 +134,7 @@ export interface StringGenerators {
    * @param configuration - Generator configuration
    * @returns Random alphanumeric string
    */
-  _generateRandomAlphaNumericString(length: number, configuration: Required<SemanticIDGeneratorConfig>): string;
+  _generateRandomAlphaNumericString(length: number, configuration: ResolvedSemanticIDGeneratorConfig): string;
 
   /**
    * Generates a random hexadecimal string
@@ -105,7 +142,7 @@ export interface StringGenerators {
    * @param configuration - Generator configuration
    * @returns Random hexadecimal string
    */
-  _generateRandomHexadecimalString(length: number, configuration: Required<SemanticIDGeneratorConfig>): string;
+  _generateRandomHexadecimalString(length: number, configuration: ResolvedSemanticIDGeneratorConfig): string;
 
   /**
    * Generates a random Base64 string
@@ -113,7 +150,7 @@ export interface StringGenerators {
    * @param configuration - Generator configuration
    * @returns Random Base64 string
    */
-  _generateRandomBase64String(length: number, configuration: Required<SemanticIDGeneratorConfig>): string;
+  _generateRandomBase64String(length: number, configuration: ResolvedSemanticIDGeneratorConfig): string;
 
   /**
    * Generates a random passphrase string
@@ -121,7 +158,7 @@ export interface StringGenerators {
    * @param configuration - Generator configuration
    * @returns Random passphrase string
    */
-  _generateRandomPassphraseString(length: number, configuration: Required<SemanticIDGeneratorConfig>): string;
+  _generateRandomPassphraseString(length: number, configuration: ResolvedSemanticIDGeneratorConfig): string;
 
   /**
    * Generates a UUID v4 string
@@ -153,11 +190,75 @@ export interface WordLists {
  * Mapping of generation strategies to their implementation functions
  */
 export interface StringGenerationStrategyMap {
-  'all characters': (length: number, config: Required<SemanticIDGeneratorConfig>) => string;
-  'visible characters': (length: number, config: Required<SemanticIDGeneratorConfig>) => string;
-  'numbers': (length: number, config: Required<SemanticIDGeneratorConfig>) => string;
-  'alphanumeric': (length: number, config: Required<SemanticIDGeneratorConfig>) => string;
-  'hexadecimal': (length: number, config: Required<SemanticIDGeneratorConfig>) => string;
-  'base64': (length: number, config: Required<SemanticIDGeneratorConfig>) => string;
-  'passphrase': (length: number, config: Required<SemanticIDGeneratorConfig>) => string;
+  'all characters': (length: number, config: ResolvedSemanticIDGeneratorConfig) => string;
+  'visible characters': (length: number, config: ResolvedSemanticIDGeneratorConfig) => string;
+  'numbers': (length: number, config: ResolvedSemanticIDGeneratorConfig) => string;
+  'alphanumeric': (length: number, config: ResolvedSemanticIDGeneratorConfig) => string;
+  'hexadecimal': (length: number, config: ResolvedSemanticIDGeneratorConfig) => string;
+  'base64': (length: number, config: ResolvedSemanticIDGeneratorConfig) => string;
+  'passphrase': (length: number, config: ResolvedSemanticIDGeneratorConfig) => string;
 }
+
+/**
+ * Configuration materialized after applying defaults/presets
+ */
+export interface ResolvedSemanticIDGeneratorConfig extends Required<Omit<SemanticIDGeneratorConfig, 'preset'>> {
+  preset?: DomainPresetName;
+}
+
+/**
+ * Domain preset configuration returned by helpers
+ */
+export interface DomainPresetConfig extends Required<Omit<SemanticIDGeneratorConfig, 'preset'>> {}
+
+/**
+ * Domain preset metadata
+ */
+export interface DomainPresetMetadata {
+  key: DomainPresetName;
+  schemaName: string;
+  description: string;
+  schemaClass: string;
+}
+
+/**
+ * JSON-LD schema representation
+ */
+export interface JsonLdSchema {
+  '@context': Record<string, string>;
+  '@id': string;
+  '@type': string;
+  'schema:name': string;
+  'schema:description': string;
+  'schema:schemaVersion': string;
+  'sig:domainClass': string;
+  'sig:dataConceptSeparator': string;
+  'sig:compartmentSeparator': string;
+  'sig:compartments': Array<{
+    '@type': string;
+    'schema:name': string;
+    'sig:length': number;
+    'sig:generationStrategy': GenerationStrategy;
+    'sig:position': number;
+  }>;
+}
+
+/**
+ * Collection of schema artifacts
+ */
+export interface SchemaArtifacts {
+  preset: DomainPresetName;
+  jsonld: JsonLdSchema;
+  owl: string;
+}
+
+/**
+ * Schema export format options
+ */
+export type SchemaFormat = 'jsonld' | 'owl';
+
+export function getDomainPreset(name: DomainPresetName): DomainPresetConfig;
+export function getPresetMetadata(name: DomainPresetName): DomainPresetMetadata;
+export function listDomainPresets(): DomainPresetName[];
+export function buildSchemaForPreset(name: DomainPresetName): SchemaArtifacts;
+export function exportSchema(name: DomainPresetName, format?: SchemaFormat): JsonLdSchema | string;

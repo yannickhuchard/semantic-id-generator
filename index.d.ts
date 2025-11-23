@@ -6,7 +6,7 @@
  * @date 08/05/2025
  */
 
-import { SemanticIDGeneratorConfig } from './types';
+import { SemanticIDGeneratorConfig, DomainPresetName, DomainPresetConfig, DomainPresetMetadata, SchemaArtifacts, SchemaFormat, JsonLdSchema, ResolvedSemanticIDGeneratorConfig } from './types';
 
 export * from './types';
 
@@ -39,8 +39,14 @@ declare class SemanticIDGenerator {
   /**
    * The current configuration of the generator
    */
-  readonly configuration: Required<SemanticIDGeneratorConfig>;
+  readonly configuration: ResolvedSemanticIDGeneratorConfig;
 }
 
 export default SemanticIDGenerator;
 export { SemanticIDGenerator };
+
+export function getDomainPreset(name: DomainPresetName): DomainPresetConfig;
+export function getPresetMetadata(name: DomainPresetName): DomainPresetMetadata;
+export function listDomainPresets(): DomainPresetName[];
+export function buildSchemaForPreset(name: DomainPresetName): SchemaArtifacts;
+export function exportSchema(name: DomainPresetName, format?: SchemaFormat): JsonLdSchema | string;

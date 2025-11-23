@@ -10,7 +10,8 @@
     "test:typescript": "node --import ./scripts/register-ts-node.mjs ./node_modules/mocha/bin/mocha test/typescript-*.test.ts",
     "build": "tsc",
     "type-check": "tsc --noEmit",
-    "example": "ts-node examples/typescript-example.ts"
+    "example": "ts-node examples/typescript-example.ts",
+    "build:schema": "node ./scripts/build-schemas.mjs"
   },
   "keywords": [
     "semantic",
@@ -27,7 +28,7 @@
   "homepage": "https://github.com/yannickhuchard/semantic-id-generator#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yannickhuchard/semantic-id-generator.git"
+    "url": "git+https://github.com/yannickhuchard/semantic-id-generator.git"
   },
   "bugs": {
     "url": "https://github.com/yannickhuchard/semantic-id-generator/issues"

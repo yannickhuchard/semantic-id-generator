@@ -6,6 +6,122 @@
 
 ![Logo](/logo/semantic-id-generator_logo_192x192.png) 
 
+## Contents
+- [Introduction](#introduction)
+- [Quick Start](#quick-start)
+- [Key Features](#key-features)
+- [Domain Presets & Schema Export](#domain-presets--schema-export)
+- [Usage & Configuration](#usage--configuration)
+- [Testing & Performance](#testing--performance)
+- [Documentation Map](#documentation-map)
+- [License](#license)
+- [About the Author](#about-the-author)
+
+## Introduction
+Semantic ID Generator is a Node.js package for minting human-readable, machine-understandable identifiers composed of configurable “compartments.” Each compartment has a semantic meaning and a generation strategy so IDs stay unique, recognizable, and consistent across systems.
+
+### Latest Updates (v1.1.2)
+- ✅ **Full-plane Unicode IDs** – printable code points from the entire Unicode range.
+- ✅ **Safer Passphrases** – cached word lists and automatic separator filtering.
+- ✅ **Cleaner TypeScript Tooling** – dedicated `ts-node` bootstrap script.
+- ✅ **Expanded Test Coverage** – numeric entropy, Unicode behavior, performance thresholds.
+- ✅ **Domain Presets & Graph Schemas** – 30 ready-made configurations plus JSON-LD/OWL exports.
+
+## Quick Start
+
+### Install
+```bash
+npm install semantic-id-generator
+```
+
+### Basic usage
+```javascript
+import SemanticIDGenerator from 'semantic-id-generator';
+
+const generator = new SemanticIDGenerator();
+const id = generator.generateSemanticID('person');
+console.log(id);
+```
+
+## Key Features
+- **Configurable compartments** – mix strategies (visible, numeric, base64, passphrase, etc.).
+- **30 domain presets** – hydrate a full configuration with `preset: '<domain>'`.
+- **Machine-readable semantics** – export JSON-LD & OWL straight into graph stores.
+- **TypeScript-first DX** – full typings, builders, and runtime validation helpers.
+- **Battle-tested** – extensive mocha suites, TypeScript compilation tests, and published benchmarks.
+
+## Domain Presets & Schema Export
+Pick from 30 presets—Person, Contract, Dataset, Device, FinancialAccount, and more—to bootstrap identifiers and schemas instantly.
+
+| Preset | Schema | Subclass of |
+| --- | --- | --- |
+| `person` | Person | `schema:Person` |
+| `corporate_customer` | CorporateCustomer | `schema:Organization` |
+| `product` | Product | `schema:Product` |
+| `contract` | Contract | `schema:Contract` |
+| `dataset` | Dataset | `schema:Dataset` |
+
+**Programmatic benefits**
+1. Single-flag configuration – no repeated separators/compartments across services.
+2. Metadata-aware tooling – retrieve schema names, descriptions, and inheritance on demand.
+3. Graph-ready exports – JSON-LD and OWL stay in lockstep with the IDs you generate.
+
+```javascript
+import SemanticIDGenerator, {
+  getPresetMetadata,
+  buildSchemaForPreset
+} from 'semantic-id-generator';
+
+const generator = new SemanticIDGenerator({ preset: 'contract' });
+const id = generator.generateSemanticID('contract');
+
+const metadata = getPresetMetadata('contract');
+const { jsonld } = buildSchemaForPreset('contract');
+
+console.log(id);
+console.log(metadata.schemaClass); // schema:Contract
+console.log(jsonld['sig:entitySchema']); // Contract
+```
+
+👉 **Full catalog, metadata APIs, and schema export details live in [`docs/domain-presets.md`](docs/domain-presets.md).**
+
+## Usage & Configuration
+- Advanced configuration patterns (custom compartments, strategies, passphrase languages)
+- TypeScript builders, validation helpers, and error handling
+- Default values and detailed strategy descriptions
+
+👉 See [`docs/usage.md`](docs/usage.md) for the complete guide, plus the runnable sample in `examples/typescript-example.ts`.
+
+## Testing & Performance
+- `npm test` runs the mocha suites, performance checks, and schema snapshot tests.
+- `npm run test:typescript` validates downstream TypeScript consumption.
+- Documented throughput numbers for every strategy plus security guarantees around `crypto`.
+
+👉 Full details in [`docs/testing-and-performance.md`](docs/testing-and-performance.md).
+
+## Documentation Map
+| Topic | Location |
+| --- | --- |
+| Domain presets & schemas | [`docs/domain-presets.md`](docs/domain-presets.md) |
+| Usage & configuration recipes | [`docs/usage.md`](docs/usage.md) |
+| Testing & performance | [`docs/testing-and-performance.md`](docs/testing-and-performance.md) |
+| TypeScript example app | [`examples/typescript-example.ts`](examples/typescript-example.ts) |
+| Test-suite overview | [`test/Test_Suite.md`](test/Test_Suite.md) |
+
+## License
+This project is licensed under the [MIT License](LICENSE).
+
+## About the Author
+Semantic ID Generator is created by Yannick Huchard (CTO).  
+More information: [yannickhuchard.com](https://yannickhuchard.com) · [Podcast](https://podcasters.spotify.com/pod/show/yannick-huchard) · [Medium](https://yannick-huchard.medium.com/) · [YouTube](https://www.youtube.com/@YannickHuchard) · [amase.io](https://amase.io)
+# Semantic ID Generator - NPM Package
+
+![GitHub](https://img.shields.io/github/license/yannickhuchard/semantic-id-generator)
+![NPM version](https://img.shields.io/npm/v/semantic-id-generator)
+![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)
+
+![Logo](/logo/semantic-id-generator_logo_192x192.png) 
+
 ## Table of Contents
 - [Semantic ID Generator - NPM Package](#semantic-id-generator---npm-package)
   - [Table of Contents](#table-of-contents)
@@ -31,6 +147,7 @@ Semantic ID Generator is a Node.js package designed to generate structured and m
 - ✅ **Safer Passphrases**: Word lists are cached once and any word containing your separators is skipped automatically to avoid malformed IDs.
 - ✅ **Cleaner TypeScript Tooling**: The `ts-node` loader now runs via a dedicated bootstrap script, eliminating experimental warnings in CI.
 - ✅ **Expanded Test Coverage**: New suites verify numeric/alphanumeric entropy, Unicode behavior, passphrase caching, and performance thresholds.
+- ✅ **Domain Presets & Graph Schemas**: Ship-ready configurations for `person`, `organization`, `device`, and `financial_account`, plus JSON-LD and OWL exports so IDs drop straight into Neo4j, Neptune, or any RDF store.
 
 ### What is a Semantic Identifier?
 A Semantic ID is an identifier that implements following AMASE data architecture principles:
@@ -51,6 +168,109 @@ Here a few examples of generated semantic identifiers:
 - An **organization ID**: `organization|7890-MNO56789-123456789ABCDEF01234`
 - A **multicurrency account**: `multicurrency_account|XYZ2-87654321-ABCD5678901234567890`
 - A **device ID**: `device_id|A1B2-135792468-EDCBA098765432109876`
+
+### Domain Presets & Schema Export
+
+To remove repetitive configuration plumbing, the generator now ships 30 core presets that cover the most common data entities. Each preset pairs a ready-to-use generator configuration with metadata and schemas whose names match the entity while inheriting from a well-known vocabulary:
+
+| Preset | Schema | Subclass of | Description |
+| --- | --- | --- | --- |
+| `person` | Person | `schema:Person` | Individual people |
+| `individual_customer` | IndividualCustomer | `schema:Person` | Customers who are people |
+| `corporate_customer` | CorporateCustomer | `schema:Organization` | Customers that are organizations |
+| `employee` | Employee | `schema:Person` | Workforce members |
+| `supplier` | Supplier | `schema:Organization` | Vendors or suppliers |
+| `partner` | Partner | `schema:Organization` | Strategic/channel partners |
+| `organization` | Organization | `schema:Organization` | Generic legal entities |
+| `department` | Department | `schema:Organization` | Internal cost centers |
+| `role` | Role | `schema:Role` | Functional or security roles |
+| `product` | Product | `schema:Product` | Catalog items |
+| `product_category` | ProductCategory | `schema:CategoryCodeSet` | Product taxonomies |
+| `device` | Device | `schema:Product` | Physical/IoT devices |
+| `asset` | Asset | `schema:Product` | Managed assets |
+| `inventory_item` | InventoryItem | `schema:Product` | Stock units |
+| `contract` | Contract | `schema:Contract` | Legal agreements |
+| `order` | Order | `schema:Order` | Customer orders |
+| `purchase_order` | PurchaseOrder | `schema:Order` | Procurement POs |
+| `invoice` | Invoice | `schema:Invoice` | A/R or A/P invoices |
+| `shipment` | Shipment | `schema:ParcelDelivery` | Logistics movements |
+| `payment_transaction` | PaymentTransaction | `schema:PaymentService` | Settlements/payments |
+| `financial_account` | FinancialAccount | `schema:FinancialProduct` | Accounts, wallets, ledgers |
+| `budget` | Budget | `schema:FinancialProduct` | Budget envelopes |
+| `project` | Project | `schema:Project` | Initiatives/projects |
+| `task` | Task | `schema:Action` | Tasks or work items |
+| `support_case` | SupportCase | `schema:Action` | Support/issue cases |
+| `document` | Document | `schema:CreativeWork` | Documents/files |
+| `policy_document` | PolicyDocument | `schema:CreativeWork` | Policies/standards |
+| `location` | Location | `schema:Place` | Physical/logical locations |
+| `event` | Event | `schema:Event` | Events or campaigns |
+| `dataset` | Dataset | `schema:Dataset` | Analytical/operational datasets |
+
+#### Programmatic benefits
+
+- **Single-flag configuration** – pass `preset: '<domain>'` once and get the full separator/compartment setup automatically.
+- **Metadata-aware tooling** – query `getPresetMetadata()` or `getDomainPreset()` at runtime to drive CLIs, governance bots, or AI agents.
+- **Graph-ready exports** – call `buildSchemaForPreset()` / `exportSchema()` to produce JSON-LD or OWL that mirrors the generated IDs, ready for Neo4j, Neptune, or any RDF store.
+
+```javascript
+import SemanticIDGenerator, {
+  getPresetMetadata,
+  buildSchemaForPreset
+} from 'semantic-id-generator';
+
+const generator = new SemanticIDGenerator({ preset: 'contract' });
+const id = generator.generateSemanticID('contract');
+
+const metadata = getPresetMetadata('contract'); // { schemaName: 'Contract', ... }
+const { jsonld } = buildSchemaForPreset('contract');
+
+console.log(id);
+console.log(metadata.schemaClass); // schema:Contract
+console.log(jsonld['sig:entitySchema']); // Contract
+```
+
+Use the `preset` field when instantiating the generator:
+
+```javascript
+import SemanticIDGenerator from 'semantic-id-generator';
+
+const generator = new SemanticIDGenerator({ preset: 'person' });
+const id = generator.generateSemanticID('person');
+console.log(id);
+```
+
+You can also inspect preset definitions programmatically:
+
+```javascript
+import { getDomainPreset, getPresetMetadata, listDomainPresets } from 'semantic-id-generator';
+
+console.log(listDomainPresets()); // ['person', 'individual_customer', ... , 'dataset']
+console.log(getDomainPreset('device')); // { dataConceptSeparator: '|', compartmentSeparator: '-', ... }
+console.log(getPresetMetadata('device'));
+/* {
+ *   key: 'device',
+ *   schemaName: 'Device',
+ *   schemaClass: 'schema:Product',
+ *   description: 'Identifiers for physical or IoT devices.'
+ * }
+ */
+```
+
+Finally, export the accompanying JSON-LD or OWL schemas when you want to feed knowledge graphs:
+
+```javascript
+import { buildSchemaForPreset, exportSchema } from 'semantic-id-generator';
+
+const { jsonld, owl } = buildSchemaForPreset('contract');
+console.log(jsonld['sig:entitySchema']); // "Contract"
+console.log(jsonld['sig:domainClass']);  // "schema:Contract"
+
+const owlXml = exportSchema('contract', 'owl');
+// Persist jsonld / owl artifacts or push them to your graph store.
+```
+
+- JSON-LD and OWL files are bundled under `/schema/<preset>.jsonld` and `/schema/<preset>.owl`.
+- Maintainers can regenerate these artifacts with `npm run build:schema`, which runs `scripts/build-schemas.mjs`.
 
 
 ## String Generation Strategies
@@ -356,6 +576,23 @@ try {
   console.error((error as Error).message);
 }
 ```
+
+### Graph-friendly Schema Export
+
+Each preset includes a machine-readable specification so you can publish identifier semantics to knowledge graphs:
+
+```javascript
+import { buildSchemaForPreset, exportSchema } from 'semantic-id-generator';
+
+const { jsonld, owl } = buildSchemaForPreset('person');
+console.log(jsonld['sig:compartments'][0]['schema:name']); // semantic_prefix
+
+const owlString = exportSchema('person', 'owl');
+// => RDF/XML string ready for Neo4j, Neptune, Blazegraph, etc.
+```
+
+- JSON-LD and OWL files are bundled under `/schema/<preset>.jsonld` and `/schema/<preset>.owl`.
+- Contributors can regenerate these artifacts with `npm run build:schema`, which runs `scripts/build-schemas.mjs`.
 
 ### Default Values
 

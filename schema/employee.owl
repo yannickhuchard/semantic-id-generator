@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:schema="https://schema.org/"
+         xmlns:sig="https://semantic-id-generator.dev/terms#">
+    <owl:Ontology rdf:about="https://semantic-id-generator.dev/schema/employee">
+        <rdfs:comment>Tracks employees across HR and workforce systems.</rdfs:comment>
+    </owl:Ontology>
+    <owl:Class rdf:about="https://semantic-id-generator.dev/schema/employee#Employee">
+        <rdfs:label>Employee</rdfs:label>
+        <rdfs:comment>Tracks employees across HR and workforce systems.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="https://schema.org/Person" />
+        <sig:entitySchema rdf:datatype="xsd:string">Employee</sig:entitySchema>
+        <sig:entitySchemaIRI rdf:datatype="xsd:anyURI">https://semantic-id-generator.dev/entity/Employee</sig:entitySchemaIRI>
+        <sig:dataConceptSeparator rdf:datatype="xsd:string">|</sig:dataConceptSeparator>
+        <sig:compartmentSeparator rdf:datatype="xsd:string">-</sig:compartmentSeparator>
+    </owl:Class>
+    <owl:DatatypeProperty rdf:about="https://semantic-id-generator.dev/terms#employee/compartment/semantic_prefix">
+        <rdfs:label>semantic_prefix</rdfs:label>
+        <rdfs:comment>generationStrategy=visible characters; length=4; position=0</rdfs:comment>
+        <rdfs:domain rdf:resource="https://semantic-id-generator.dev/schema/employee#Employee" />
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string" />
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="https://semantic-id-generator.dev/terms#employee/compartment/numeric_core">
+        <rdfs:label>numeric_core</rdfs:label>
+        <rdfs:comment>generationStrategy=numbers; length=8; position=1</rdfs:comment>
+        <rdfs:domain rdf:resource="https://semantic-id-generator.dev/schema/employee#Employee" />
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string" />
+    </owl:DatatypeProperty>
+
+    <owl:DatatypeProperty rdf:about="https://semantic-id-generator.dev/terms#employee/compartment/semantic_suffix">
+        <rdfs:label>semantic_suffix</rdfs:label>
+        <rdfs:comment>generationStrategy=hexadecimal; length=24; position=2</rdfs:comment>
+        <rdfs:domain rdf:resource="https://semantic-id-generator.dev/schema/employee#Employee" />
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string" />
+    </owl:DatatypeProperty>
+</rdf:RDF>
