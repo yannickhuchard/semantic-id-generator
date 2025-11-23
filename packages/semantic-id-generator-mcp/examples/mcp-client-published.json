@@ -1,0 +1,18 @@
+{
+  "servers": [
+    {
+      "id": "semantic-id-generator",
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "semantic-id-generator-mcp-server",
+        "--default-preset",
+        "dataset"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
+

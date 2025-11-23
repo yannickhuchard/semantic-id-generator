@@ -27,7 +27,7 @@
 import SemanticIDGenerator from './src/semantic-id-generator.js';
 import SemanticIDInspector from './src/semantic-id-inspector.js';
 import { buildSchemaForPreset, exportSchema } from './src/schema-exporter.js';
-import { getDomainPreset, getPresetMetadata, listDomainPresets } from './src/domain-presets.js';
+import { getDomainPreset, getPresetMetadata, listDomainPresets, resolvePresetConfiguration } from './src/domain-presets.js';
 
 export {
     buildSchemaForPreset,
@@ -35,6 +35,7 @@ export {
     getDomainPreset,
     getPresetMetadata,
     listDomainPresets,
+    resolvePresetConfiguration,
     SemanticIDInspector
 };
 

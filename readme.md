@@ -20,7 +20,7 @@
 ## Introduction
 Semantic ID Generator is a Node.js package for minting human-readable, machine-understandable identifiers composed of configurable “compartments.” Each compartment has a semantic meaning and a generation strategy so IDs stay unique, recognizable, and consistent across systems.
 
-### Latest Updates (v1.2.0)
+### Latest Updates (v1.3.0)
 - ✅ **Full-plane Unicode IDs** – printable code points from the entire Unicode range.
 - ✅ **Safer Passphrases** – cached word lists and automatic separator filtering.
 - ✅ **Cleaner TypeScript Tooling** – dedicated `ts-node` bootstrap script.
@@ -58,6 +58,37 @@ node code_samples/domain-presets/generate-contract-id/sample.js
 node --import ./scripts/register-ts-node.mjs code_samples/typescript-tooling/builder-pattern/sample.ts
 ```
 
+## MCP Integration (Server + Client)
+
+Need to let AI copilots such as Cursor or Claude invoke the Semantic ID Generator directly? A dedicated MCP companion package now lives under [`packages/semantic-id-generator-mcp`](packages/semantic-id-generator-mcp). It keeps the core library lean (no MCP dependencies) while providing:
+
+- `semantic-id-generator-mcp-server` – stdio MCP server exposing tools to generate IDs, inspect IDs, and list presets.
+- `semantic-id-generator-mcp-client` – a minimal stdio client (inspired by the [official MCP tutorials](https://modelcontextprotocol.io/docs/getting-started/intro)) for local testing or scripted automation.
+
+**Usage**
+
+```bash
+cd packages/semantic-id-generator-mcp
+npm install
+
+# Start the stdio server (register this command inside Cursor/Claude)
+npx semantic-id-generator-mcp-server --default-preset dataset
+
+# Optional: drive the tools from a terminal shell
+npx semantic-id-generator-mcp-client --tool generate-semantic-id --args '{"dataConceptName":"contract","preset":"contract"}'
+```
+
+The server follows the latest MCP specification so any compatible AI model client can connect, discover the tools, and receive structured responses.
+
+**Testing**
+
+```bash
+# Inside packages/semantic-id-generator-mcp
+npm test              # runs in-memory + stdio MCP integration tests
+```
+
+The MCP suite covers protocol-level behavior (tool/resource calls) and also spawns the actual stdio server to verify initialization works exactly the way Cursor or Claude would invoke it.
+
 ## Key Features
 - **Configurable compartments** – mix strategies (visible, numeric, base64, passphrase, etc.).
 - **30 domain presets** – hydrate a full configuration with `preset: '<domain>'`.
@@ -72,9 +103,34 @@ Pick from 30 presets—Person, Contract, Dataset, Device, FinancialAccount, and 
 | Preset | Schema | Subclass of |
 | --- | --- | --- |
 | `person` | Person | `schema:Person` |
+| `individual_customer` | IndividualCustomer | `schema:Person` |
 | `corporate_customer` | CorporateCustomer | `schema:Organization` |
+| `employee` | Employee | `schema:Person` |
+| `supplier` | Supplier | `schema:Organization` |
+| `partner` | Partner | `schema:Organization` |
+| `organization` | Organization | `schema:Organization` |
+| `department` | Department | `schema:Organization` |
+| `role` | Role | `schema:Role` |
 | `product` | Product | `schema:Product` |
+| `product_category` | ProductCategory | `schema:CategoryCodeSet` |
+| `device` | Device | `schema:Product` |
+| `asset` | Asset | `schema:Product` |
+| `inventory_item` | InventoryItem | `schema:Product` |
 | `contract` | Contract | `schema:Contract` |
+| `order` | Order | `schema:Order` |
+| `purchase_order` | PurchaseOrder | `schema:Order` |
+| `invoice` | Invoice | `schema:Invoice` |
+| `shipment` | Shipment | `schema:ParcelDelivery` |
+| `payment_transaction` | PaymentTransaction | `schema:PaymentService` |
+| `financial_account` | FinancialAccount | `schema:FinancialProduct` |
+| `budget` | Budget | `schema:FinancialProduct` |
+| `project` | Project | `schema:Project` |
+| `task` | Task | `schema:Action` |
+| `support_case` | SupportCase | `schema:Action` |
+| `document` | Document | `schema:CreativeWork` |
+| `policy_document` | PolicyDocument | `schema:CreativeWork` |
+| `location` | Location | `schema:Place` |
+| `event` | Event | `schema:Event` |
 | `dataset` | Dataset | `schema:Dataset` |
 
 **Programmatic benefits**
@@ -192,7 +248,7 @@ More information: [yannickhuchard.com](https://yannickhuchard.com) · [Podcast](
 ## Introduction
 Semantic ID Generator is a Node.js package designed to generate structured and meaningful unique identifiers, named "Semantic ID". These identifiers are composed of different "compartments" each having a specific "semantic meaning" and generation strategy.
 
-**Latest Updates (v1.2.0):**
+**Latest Updates (v1.3.0):**
 - ✅ **Full-plane Unicode IDs**: “All characters” strategy now emits printable code points across the entire Unicode range while guaranteeing the configured compartment length.
 - ✅ **Safer Passphrases**: Word lists are cached once and any word containing your separators is skipped automatically to avoid malformed IDs.
 - ✅ **Cleaner TypeScript Tooling**: The `ts-node` loader now runs via a dedicated bootstrap script, eliminating experimental warnings in CI.

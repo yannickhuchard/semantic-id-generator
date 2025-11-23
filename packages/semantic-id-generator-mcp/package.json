@@ -1,0 +1,28 @@
+{
+  "name": "semantic-id-generator-mcp",
+  "version": "0.1.0",
+  "description": "Command line MCP server and client wrapping semantic-id-generator.",
+  "type": "module",
+  "bin": {
+    "semantic-id-generator-mcp-server": "./bin/server.js",
+    "semantic-id-generator-mcp-client": "./bin/client.js"
+  },
+  "scripts": {
+    "start:server": "node ./bin/server.js",
+    "start:client": "node ./bin/client.js",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.22.0",
+    "semantic-id-generator": "file:../..",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "chai": "^5.2.1",
+    "mocha": "^11.7.1"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}
+

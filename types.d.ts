@@ -286,5 +286,6 @@ export interface SemanticIDInspectionResult {
 export function getDomainPreset(name: DomainPresetName): DomainPresetConfig;
 export function getPresetMetadata(name: DomainPresetName): DomainPresetMetadata;
 export function listDomainPresets(): DomainPresetName[];
+export function resolvePresetConfiguration(name: DomainPresetName, overrides?: SemanticIDGeneratorConfig): DomainPresetConfig;
 export function buildSchemaForPreset(name: DomainPresetName): SchemaArtifacts;
 export function exportSchema(name: DomainPresetName, format?: SchemaFormat): JsonLdSchema | string;
