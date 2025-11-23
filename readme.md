@@ -20,7 +20,7 @@
 ## Introduction
 Semantic ID Generator is a Node.js package for minting human-readable, machine-understandable identifiers composed of configurable “compartments.” Each compartment has a semantic meaning and a generation strategy so IDs stay unique, recognizable, and consistent across systems.
 
-### Latest Updates (v1.1.2)
+### Latest Updates (v1.2.0)
 - ✅ **Full-plane Unicode IDs** – printable code points from the entire Unicode range.
 - ✅ **Safer Passphrases** – cached word lists and automatic separator filtering.
 - ✅ **Cleaner TypeScript Tooling** – dedicated `ts-node` bootstrap script.
@@ -41,6 +41,21 @@ import SemanticIDGenerator from 'semantic-id-generator';
 const generator = new SemanticIDGenerator();
 const id = generator.generateSemanticID('person');
 console.log(id);
+```
+
+## Runnable Code Samples
+Every major feature now has a self-contained sample under [`code_samples/`](code_samples/README.md):
+- Basic ID generation (default + custom configs)
+- String strategies (Base64 payloads, language-scoped passphrases)
+- Domain presets (preset hydration + metadata inspection)
+- Schema export (JSON-LD and OWL artifacts)
+- TypeScript tooling (builder pattern + runtime guards)
+
+Each folder contains a `README.md` plus a runnable script, e.g.
+
+```bash
+node code_samples/domain-presets/generate-contract-id/sample.js
+node --import ./scripts/register-ts-node.mjs code_samples/typescript-tooling/builder-pattern/sample.ts
 ```
 
 ## Key Features
@@ -142,7 +157,7 @@ More information: [yannickhuchard.com](https://yannickhuchard.com) · [Podcast](
 ## Introduction
 Semantic ID Generator is a Node.js package designed to generate structured and meaningful unique identifiers, named "Semantic ID". These identifiers are composed of different "compartments" each having a specific "semantic meaning" and generation strategy.
 
-**Latest Updates (v1.1.2):**
+**Latest Updates (v1.2.0):**
 - ✅ **Full-plane Unicode IDs**: “All characters” strategy now emits printable code points across the entire Unicode range while guaranteeing the configured compartment length.
 - ✅ **Safer Passphrases**: Word lists are cached once and any word containing your separators is skipped automatically to avoid malformed IDs.
 - ✅ **Cleaner TypeScript Tooling**: The `ts-node` loader now runs via a dedicated bootstrap script, eliminating experimental warnings in CI.

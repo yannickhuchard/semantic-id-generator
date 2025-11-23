@@ -51,6 +51,8 @@ const id = generator.generateSemanticID('person');
 console.log(id); // person|AbCd-12345678-9ABCDEF0123456789
 ```
 
+👉 Run the concrete presets showcased under [`code_samples/domain-presets/`](../code_samples/domain-presets) for fully documented scripts.
+
 ## Metadata-aware tooling
 
 ```javascript

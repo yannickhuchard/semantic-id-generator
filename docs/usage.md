@@ -2,6 +2,8 @@
 
 This guide collects all configuration patterns, code samples, and TypeScript helpers that previously lived in the root README.
 
+👉 Prefer running examples? Head to [`code_samples/`](../code_samples/README.md) for per-feature sample folders (basic generation, string strategies, domain presets, schema export, and TypeScript helpers).
+
 ## Basic usage
 
 ```javascript
