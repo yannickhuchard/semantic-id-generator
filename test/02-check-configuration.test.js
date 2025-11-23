@@ -77,6 +77,20 @@ describe('02 | SemanticIDGenerator | Test Configuration ', function() {
     });
 
 
+    it('should reject non-integer compartment lengths', function() {
+        const invalidConfig = { 
+            dataConceptSeparator: '|', 
+            compartmentSeparator: '-', 
+            compartments: [
+                { name: 'part1', length: 4.5, generationStrategy: "numbers"},
+                { name: 'part2', length: 8, generationStrategy: "numbers"}
+            ] 
+        };
+
+        expect(() => new SemanticIDGenerator(invalidConfig)).to.throw(Error);
+    });
+
+
 
 
     it('should throw an error when a configuration contains invalid "generationStrategy" value', function() {

@@ -68,7 +68,7 @@ class SemanticIDGenerator {
         if (this.configuration.compartments) {
             this.configuration.compartments.forEach(compartment => {
                 // Check if 'length' is a positive integer
-                if (typeof compartment.length !== 'number' || compartment.length <= 0) {
+                if (!Number.isInteger(compartment.length) || compartment.length <= 0) {
                     throw new Error('Invalid compartment length. It should be a positive integer.');
                 }
         

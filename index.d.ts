@@ -6,41 +6,41 @@
  * @date 08/05/2025
  */
 
-declare module 'semantic-id-generator' {
-  // Re-export all types from types.d.ts
-  export * from './types';
+import { SemanticIDGeneratorConfig } from './types';
+
+export * from './types';
+
+/**
+ * Main class for generating semantic identifiers
+ */
+declare class SemanticIDGenerator {
+  /**
+   * Creates a new SemanticIDGenerator instance
+   * @param configuration - Optional configuration object
+   * @throws {Error} When configuration is invalid
+   */
+  constructor(configuration?: SemanticIDGeneratorConfig);
 
   /**
-   * Main class for generating semantic identifiers
+   * Generates a semantic identifier
+   * @param dataConceptName - The name of the data concept (e.g., 'person', 'organization')
+   * @returns The generated semantic identifier
+   * @throws {Error} When dataConceptName is invalid
+   *
+   * @example
+   * ```typescript
+   * const generator = new SemanticIDGenerator();
+   * const id = generator.generateSemanticID('person');
+   * // Returns: 'person|abcd-efghijkl-mnopqrstuvwx'
+   * ```
    */
-  export class SemanticIDGenerator {
-    /**
-     * Creates a new SemanticIDGenerator instance
-     * @param configuration - Optional configuration object
-     * @throws {Error} When configuration is invalid
-     */
-    constructor(configuration?: SemanticIDGeneratorConfig);
+  generateSemanticID(dataConceptName: string): string;
 
-    /**
-     * Generates a semantic identifier
-     * @param dataConceptName - The name of the data concept (e.g., 'person', 'organization')
-     * @returns The generated semantic identifier
-     * @throws {Error} When dataConceptName is invalid
-     * 
-     * @example
-     * ```typescript
-     * const generator = new SemanticIDGenerator();
-     * const id = generator.generateSemanticID('person');
-     * // Returns: 'person|abcd-efghijkl-mnopqrstuvwx'
-     * ```
-     */
-    generateSemanticID(dataConceptName: string): string;
-
-    /**
-     * The current configuration of the generator
-     */
-    readonly configuration: Required<SemanticIDGeneratorConfig>;
-  }
+  /**
+   * The current configuration of the generator
+   */
+  readonly configuration: Required<SemanticIDGeneratorConfig>;
 }
 
-export = SemanticIDGenerator; 
+export default SemanticIDGenerator;
+export { SemanticIDGenerator };

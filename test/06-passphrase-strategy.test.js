@@ -16,8 +16,12 @@
 
 
 import { expect } from 'chai';
+import fs from 'fs';
 import SemanticIDGenerator from '../src/semantic-id-generator.js';
 import { _generateRandomPassphraseString } from '../src/string-generators.js';
+
+const WORD_LISTS_CACHE_KEY = Symbol.for('semantic-id-generator.wordLists');
+const WORD_LISTS_ERROR_KEY = Symbol.for('semantic-id-generator.wordListsError');
 
 
 describe('06 | Passphrase Generation Strategy | Test', function() {
@@ -38,6 +42,52 @@ describe('06 | Passphrase Generation Strategy | Test', function() {
                 expect(result).to.be.a('string');
                 expect(result.length).to.equal(length);
             });
+        });
+
+        it('should cache word lists between calls', function() {
+            // Ensure initial load succeeds
+            _generateRandomPassphraseString(10, testConfig);
+
+            const originalReadFileSync = fs.readFileSync;
+            let readAttempted = false;
+
+            fs.readFileSync = () => {
+                readAttempted = true;
+                throw new Error('Word list should be cached');
+            };
+
+            try {
+                const result = _generateRandomPassphraseString(10, { ...testConfig, languageCode: 'eng' });
+                expect(result).to.be.a('string');
+                expect(readAttempted).to.be.false;
+            } finally {
+                fs.readFileSync = originalReadFileSync;
+            }
+        });
+
+        it('should skip entire words containing separators', function() {
+            const originalCache = globalThis[WORD_LISTS_CACHE_KEY];
+            const originalError = globalThis[WORD_LISTS_ERROR_KEY];
+            globalThis[WORD_LISTS_CACHE_KEY] = {
+                eng: ['alpha|beta', 'cleanword'],
+            };
+            globalThis[WORD_LISTS_ERROR_KEY] = undefined;
+
+            const config = {
+                dataConceptSeparator: '|',
+                compartmentSeparator: '-',
+                languageCode: 'eng',
+                compartments: [
+                    { name: 'passphrase', length: 12, generationStrategy: 'passphrase' }
+                ]
+            };
+
+            const result = _generateRandomPassphraseString(12, config);
+            expect(result).to.not.include('|');
+            expect(result).to.not.include('-');
+
+            globalThis[WORD_LISTS_CACHE_KEY] = originalCache;
+            globalThis[WORD_LISTS_ERROR_KEY] = originalError;
         });
 
         it('should not contain separator characters', function() {

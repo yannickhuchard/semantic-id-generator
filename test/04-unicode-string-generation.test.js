@@ -19,6 +19,10 @@ import { expect } from 'chai';
 import SemanticIDGenerator from '../src/semantic-id-generator.js';
 import { _generateRandomUnicodeString } from '../src/string-generators.js';
 
+function countCodePoints(value) {
+    return Array.from(value).length;
+}
+
 
 describe('04 | Unicode String Generation | Test Optimization', function() {
     this.timeout(0); // Disable Mocha's default timeout for this test suite
@@ -37,6 +41,9 @@ describe('04 | Unicode String Generation | Test Optimization', function() {
                 const result = _generateRandomUnicodeString(length, testConfig);
                 expect(result).to.be.a('string');
                 expect(result.length).to.equal(length);
+                const codePoints = countCodePoints(result);
+                expect(codePoints).to.be.at.most(length);
+                expect(codePoints).to.be.greaterThan(0);
             });
         });
 
@@ -73,6 +80,28 @@ describe('04 | Unicode String Generation | Test Optimization', function() {
             expect(() => _generateRandomUnicodeString(0, testConfig)).to.throw(Error);
             expect(() => _generateRandomUnicodeString(-1, testConfig)).to.throw(Error);
             expect(() => _generateRandomUnicodeString(1.5, testConfig)).to.throw(Error);
+        });
+
+        it('should emit characters beyond the Basic Multilingual Plane', function() {
+            let containsHighPlane = false;
+            const attempts = 10;
+
+            for (let i = 0; i < attempts && !containsHighPlane; i++) {
+                const result = _generateRandomUnicodeString(32, testConfig);
+                containsHighPlane = Array.from(result).some(char => char.codePointAt(0) > 0xFFFF);
+            }
+
+            expect(containsHighPlane).to.be.true;
+        });
+
+        it('should not include ASCII control characters', function() {
+            const result = _generateRandomUnicodeString(200, testConfig);
+
+            for (const char of result) {
+                const codePoint = char.codePointAt(0);
+                expect(codePoint).to.be.greaterThan(0x1F);
+                expect(codePoint < 0x7F || codePoint > 0x9F).to.be.true;
+            }
         });
 
         it('should work with different separator configurations', function() {
@@ -175,7 +204,11 @@ describe('04 | Unicode String Generation | Test Optimization', function() {
             
             expect(id).to.be.a('string');
             expect(id).to.include('test_concept|');
-            expect(id.split('|')[1]).to.have.length(20);
+            const unicodePart = id.split('|')[1];
+            expect(unicodePart.length).to.equal(20);
+            const codePoints = countCodePoints(unicodePart);
+            expect(codePoints).to.be.at.most(20);
+            expect(codePoints).to.be.greaterThan(0);
         });
 
         it('should generate unique IDs with Unicode strategy', function() {

@@ -161,22 +161,3 @@ export interface StringGenerationStrategyMap {
   'base64': (length: number, config: Required<SemanticIDGeneratorConfig>) => string;
   'passphrase': (length: number, config: Required<SemanticIDGeneratorConfig>) => string;
 }
-
-/**
- * Configuration builder class for type-safe configuration building
- */
-export class ConfigurationBuilder {
-  private config: SemanticIDGeneratorConfig = {};
-  
-  setDataConceptSeparator(separator: string): this;
-  setCompartmentSeparator(separator: string): this;
-  addCompartment(compartment: Compartment): this;
-  setLanguageCode(languageCode: LanguageCode): this;
-  build(): SemanticIDGeneratorConfig;
-}
-
-/**
- * Type validation utilities
- */
-export function validateStrategy(strategy: GenerationStrategy): boolean;
-export function validateLanguageCode(code: LanguageCode): boolean; 

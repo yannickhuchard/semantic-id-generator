@@ -23,6 +23,8 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const WORD_LISTS_CACHE_KEY = Symbol.for('semantic-id-generator.wordLists');
+const WORD_LISTS_ERROR_KEY = Symbol.for('semantic-id-generator.wordListsError');
 
 /**
      * Generates a random string of a specific length with Unicode characters.
@@ -41,13 +43,11 @@ function _generateRandomUnicodeString(length, configuration) {
     const separators = new Set([configuration.dataConceptSeparator, configuration.compartmentSeparator]);
     
     while (string.length < length) {
-        // Use cryptographically secure random generation
-        // Avoid surrogate pairs (0xD800-0xDFFF) which cause length issues
-        const codePoint = _randomIntFromInterval(0, 0xD7FF);
+        const codePoint = _randomPrintableCodePoint();
         const char = String.fromCodePoint(codePoint);
         
-        // Only add if not a separator
-        if (!separators.has(char)) {
+        // Only add if not a separator and will not exceed length
+        if (!separators.has(char) && string.length + char.length <= length) {
             string += char;
         }
     }
@@ -82,6 +82,32 @@ function _randomIntFromInterval(min, max) {
     return min + Math.floor((max - min + 1) * (randomNumber / 4294967295));
 }
 
+function _randomPrintableCodePoint() {
+    while (true) {
+        const candidate = _randomIntFromInterval(0, 0x10FFFF);
+
+        if (_isDisallowedCodePoint(candidate)) {
+            continue;
+        }
+
+        return candidate;
+    }
+}
+
+function _isDisallowedCodePoint(codePoint) {
+    // Skip surrogate halves
+    if (codePoint >= 0xD800 && codePoint <= 0xDFFF) {
+        return true;
+    }
+
+    // Skip C0 + DEL/C1 controls
+    if (codePoint <= 0x1F || (codePoint >= 0x7F && codePoint <= 0x9F)) {
+        return true;
+    }
+
+    return false;
+}
+
 
 
 /**
@@ -96,7 +122,7 @@ function _generateRandomNumberString(length, configuration) {
     }
     let string = '';
     while (string.length < length) {
-        const randomNumber = crypto.randomInt(0, 9); // Generate a random number between 0 and 9
+        const randomNumber = crypto.randomInt(0, 10); // Generate a random number between 0 and 9 inclusive
         const char = randomNumber.toString();
 
         if (char !== configuration.dataConceptSeparator && char !== configuration.compartmentSeparator) {
@@ -123,7 +149,7 @@ function _generateRandomAlphaNumericString(length, configuration) {
     const alphanumericChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let string = '';
     while (string.length < length) {
-        const randomNumber = crypto.randomInt(0, alphanumericChars.length - 1);
+        const randomNumber = crypto.randomInt(0, alphanumericChars.length);
         const char = alphanumericChars[randomNumber];
 
         if (char !== configuration.dataConceptSeparator && char !== configuration.compartmentSeparator) {
@@ -220,15 +246,8 @@ function _generateRandomPassphraseString(length, configuration) {
         throw new Error('Invalid length. It should be a positive integer.');
     }
 
-    // Load word lists from JSON file
-    let wordLists;
-    try {
-        const wordListsPath = path.join(__dirname, 'data', 'word-lists.json');
-        const wordListsData = fs.readFileSync(wordListsPath, 'utf8');
-        wordLists = JSON.parse(wordListsData);
-    } catch (error) {
-        throw new Error('Failed to load word lists from data/word-lists.json');
-    }
+    // Load word lists from JSON file (cached after first read)
+    const wordLists = _getWordLists();
 
     // Determine which words to use based on configuration
     let commonWords = [];
@@ -256,12 +275,12 @@ function _generateRandomPassphraseString(length, configuration) {
         const word = commonWords[randomIndex];
         
         // Add the word if it doesn't contain separators and fits within length
-        if (!separators.has(word) && string.length + word.length <= length) {
+        if (!_wordContainsSeparator(word, separators) && string.length + word.length <= length) {
             string += word;
         } else if (string.length < length) {
             // If word doesn't fit or contains separators, add individual characters
             for (const char of word) {
-                if (!separators.has(char) && string.length < length) {
+                if (!_wordContainsSeparator(char, separators) && string.length < length) {
                     string += char;
                 }
             }
@@ -270,6 +289,38 @@ function _generateRandomPassphraseString(length, configuration) {
     
     // Ensure the string is exactly the requested length
     return string.substring(0, length);
+}
+
+function _getWordLists() {
+    const globalCache = globalThis;
+    if (globalCache[WORD_LISTS_CACHE_KEY]) {
+        return globalCache[WORD_LISTS_CACHE_KEY];
+    }
+
+    if (globalCache[WORD_LISTS_ERROR_KEY]) {
+        throw globalCache[WORD_LISTS_ERROR_KEY];
+    }
+
+    try {
+        const wordListsPath = path.join(__dirname, 'data', 'word-lists.json');
+        const wordListsData = fs.readFileSync(wordListsPath, 'utf8');
+        const parsed = JSON.parse(wordListsData);
+        globalCache[WORD_LISTS_CACHE_KEY] = parsed;
+        return parsed;
+    } catch (error) {
+        const failure = new Error('Failed to load word lists from data/word-lists.json');
+        globalCache[WORD_LISTS_ERROR_KEY] = failure;
+        throw failure;
+    }
+}
+
+function _wordContainsSeparator(word, separators) {
+    for (const separator of separators) {
+        if (separator && word.includes(separator)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 

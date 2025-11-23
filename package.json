@@ -7,7 +7,7 @@
   "types": "index.d.ts",
   "scripts": {
     "test": "mocha",
-    "test:typescript": "mocha test/typescript-*.test.ts --require ts-node/register",
+    "test:typescript": "node --import ./scripts/register-ts-node.mjs ./node_modules/mocha/bin/mocha test/typescript-*.test.ts",
     "build": "tsc",
     "type-check": "tsc --noEmit",
     "example": "ts-node examples/typescript-example.ts"

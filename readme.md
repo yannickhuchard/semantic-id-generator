@@ -58,13 +58,13 @@ Here a few examples of generated semantic identifiers:
 
 Semantic ID Generator uses different string generation strategies to generate each compartment of the semantic ID. Here are the currently available strategies:
 
-- **all characters**: This strategy generates a string that includes all Unicode characters.
+- **all characters**: This strategy emits printable characters from the full Unicode plane (including emoji) while respecting the requested compartment length by skipping any code point that would overflow the remaining space.
 - **visible characters**: This strategy generates a string that only includes visible Unicode characters.
 - **numbers**: This strategy generates a string that only includes numeric characters (0-9).
 - **alphanumeric**: This strategy generates a string that includes both alphabetic (A-Z, a-z) and numeric (0-9) characters.
 - **hexadecimal**: This strategy generates a string that includes hexadecimal characters (0-9, a-f).
 - **base64**: This strategy generates a string that includes Base64 characters (A-Z, a-z, 0-9, +, /).
-- **passphrase**: This strategy generates a string using common words from multiple languages (English, French, Spanish, Italian, German, Dutch, Wolof), creating human-readable passphrases.
+- **passphrase**: This strategy generates a string using common words from multiple languages (English, French, Spanish, Italian, German, Dutch, Wolof), creating human-readable passphrases and automatically skips any word that contains your configured separators.
 
 These strategies can be assigned to each compartment in the Semantic ID Generator configuration. This allows you to customize the generation of each part of the semantic ID according to your requirements.
 
@@ -278,7 +278,36 @@ For comprehensive TypeScript examples, see the `examples/typescript-example.ts` 
 
 **Type-safe configuration building:**
 ```typescript
-import { ConfigurationBuilder } from 'semantic-id-generator';
+class ConfigurationBuilder {
+  private config: SemanticIDGeneratorConfig = {};
+
+  setDataConceptSeparator(separator: string) {
+    this.config.dataConceptSeparator = separator;
+    return this;
+  }
+
+  setCompartmentSeparator(separator: string) {
+    this.config.compartmentSeparator = separator;
+    return this;
+  }
+
+  addCompartment(compartment: Compartment) {
+    if (!this.config.compartments) {
+      this.config.compartments = [];
+    }
+    this.config.compartments.push(compartment);
+    return this;
+  }
+
+  setLanguageCode(languageCode: LanguageCode) {
+    this.config.languageCode = languageCode;
+    return this;
+  }
+
+  build() {
+    return { ...this.config };
+  }
+}
 
 const config = new ConfigurationBuilder()
   .setDataConceptSeparator('|')
@@ -291,15 +320,31 @@ const config = new ConfigurationBuilder()
 
 **Type validation utilities:**
 ```typescript
-import { validateStrategy, validateLanguageCode } from 'semantic-id-generator';
+function validateStrategy(strategy: GenerationStrategy): boolean {
+  const allowed: GenerationStrategy[] = [
+    'all characters',
+    'visible characters',
+    'numbers',
+    'alphanumeric',
+    'hexadecimal',
+    'base64',
+    'passphrase',
+  ];
+  return allowed.includes(strategy);
+}
+
+function validateLanguageCode(code: LanguageCode): boolean {
+  const allowed: LanguageCode[] = ['eng', 'fra', 'spa', 'ita', 'deu', 'nld', 'wol'];
+  return allowed.includes(code);
+}
 
 // Validate generation strategies
 console.log(validateStrategy('base64')); // true
-console.log(validateStrategy('invalid')); // false
+console.log(validateStrategy('invalid' as GenerationStrategy)); // false
 
 // Validate language codes
 console.log(validateLanguageCode('eng')); // true
-console.log(validateLanguageCode('invalid')); // false
+console.log(validateLanguageCode('invalid' as LanguageCode)); // false
 ```
 
 **Error handling with TypeScript:**

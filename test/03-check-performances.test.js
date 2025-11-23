@@ -16,7 +16,9 @@ describe('03 | SemanticIDGenerator | Test Performances ', function() {
 
         const end = process.hrtime.bigint(); // Get high-resolution real time after the loop ends
         const elapsed = end - start; // Calculate the difference
+        const elapsedMs = Number(elapsed) / 1000000;
 
-        console.log(`Performance test took ${elapsed / 100000n} milliseconds`); // Convert nanoseconds to milliseconds and log the result
+        console.log(`Performance test took ${elapsedMs.toFixed(2)} milliseconds`);
+        expect(elapsedMs).to.be.lessThan(20000);
     });
 });
