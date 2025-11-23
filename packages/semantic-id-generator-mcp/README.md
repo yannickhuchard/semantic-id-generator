@@ -18,20 +18,20 @@ cd packages/semantic-id-generator-mcp
 npm install                       # installs MCP-specific deps
 ```
 
-After installing you can invoke the bins locally with `npx`:
+After installing you can invoke the bins locally with `npx` (note: when calling the published package you must specify the package name explicitly):
 
 ```bash
-npx semantic-id-generator-mcp-server --list-presets
-npx semantic-id-generator-mcp-client --list-tools
+npx --package semantic-id-generator-mcp semantic-id-generator-mcp-server --list-presets
+npx --package semantic-id-generator-mcp semantic-id-generator-mcp-client --list-tools
 ```
 
-When the package is published to npm you will be able to run the same commands from anywhere via `npx semantic-id-generator-mcp-server`.
+When the package is published to npm you can run the same commands from anywhere via `npx --package semantic-id-generator-mcp semantic-id-generator-mcp-server`.
 
 ## Quick start
 
 1. **Start the MCP server** (stdio mode, default preset `dataset`):
    ```bash
-   npx semantic-id-generator-mcp-server --default-preset dataset
+   npx --package semantic-id-generator-mcp semantic-id-generator-mcp-server --default-preset dataset
    ```
 2. **(Optional) Drive it locally** with the companion CLI client:
    ```bash
@@ -49,7 +49,7 @@ When the package is published to npm you will be able to run the same commands f
 Run the server on stdio (ideal for Cursor, Claude Desktop, or any MCP client):
 
 ```
-npx semantic-id-generator-mcp-server --default-preset product
+npx --package semantic-id-generator-mcp semantic-id-generator-mcp-server --default-preset product
 ```
 
 Published tools:
@@ -84,16 +84,16 @@ npx semantic-id-generator-mcp-client --tool generate-semantic-id --args '{"dataC
 
 ## Integrating with AI Assistants
 
-Register the stdio server command (`npx semantic-id-generator-mcp-server`) inside Cursor AI, Claude Desktop, or any MCP-compatible assistant. The assistant receives rich structured responses (semantic IDs, inspection diagnostics, preset catalogs) and can use them during reasoning or code generation. Because the server follows the MCP specification, it is automatically discoverable by clients that implement standard tool discovery.
+Register the stdio server command (`npx --package semantic-id-generator-mcp semantic-id-generator-mcp-server`) inside Cursor AI, Claude Desktop, or any MCP-compatible assistant. The assistant receives rich structured responses (semantic IDs, inspection diagnostics, preset catalogs) and can use them during reasoning or code generation. Because the server follows the MCP specification, it is automatically discoverable by clients that implement standard tool discovery.
 
 ### JSON configuration examples
 
 Two ready-to-use MCP client snippets live under [`examples/`](./examples):
 
-- [`mcp-client-published.json`](./examples/mcp-client-published.json) – points to the published npm package via `npx semantic-id-generator-mcp-server`.
+- [`mcp-client-published.json`](./examples/mcp-client-published.json) – points to the published npm package via `npx --package semantic-id-generator-mcp semantic-id-generator-mcp-server`.
 - [`mcp-client-local.json`](./examples/mcp-client-local.json) – launches the server from the local workspace using `node ./packages/semantic-id-generator-mcp/bin/server.js` (make sure the client replaces `${workspaceFolder}` with its checkout path).
 
-Drop the relevant JSON into your MCP client’s configuration to immediately expose the Semantic ID Generator tools.
+The samples match Cursor’s current configuration format (`{ "mcpServers": { ... } }`) but can be adapted to other hosts easily. Drop the relevant JSON into your MCP client’s configuration to immediately expose the Semantic ID Generator tools.
 
 ### Automated testing
 

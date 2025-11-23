@@ -1,18 +1,20 @@
 {
-  "servers": [
-    {
-      "id": "semantic-id-generator",
-      "type": "stdio",
+  "mcpServers": {
+    "semantic-id-generator": {
       "command": "npx",
       "args": [
+        "-y",
+        "--package",
+        "semantic-id-generator-mcp",
         "semantic-id-generator-mcp-server",
         "--default-preset",
         "dataset"
       ],
       "env": {
         "NODE_ENV": "production"
-      }
+      },
+      "enabled": true
     }
-  ]
+  }
 }
 

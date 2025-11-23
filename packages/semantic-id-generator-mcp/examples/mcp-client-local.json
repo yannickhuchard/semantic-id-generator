@@ -1,19 +1,18 @@
 {
-  "servers": [
-    {
-      "id": "semantic-id-generator-local",
-      "type": "stdio",
+  "mcpServers": {
+    "semantic-id-generator": {
       "command": "node",
       "args": [
         "./packages/semantic-id-generator-mcp/bin/server.js",
         "--default-preset",
         "dataset"
       ],
-      "cwd": "${workspaceFolder}",
+      "workingDirectory": "${workspaceFolder}",
       "env": {
         "NODE_ENV": "development"
-      }
+      },
+      "enabled": true
     }
-  ]
+  }
 }
 

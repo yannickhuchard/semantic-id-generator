@@ -72,7 +72,7 @@ cd packages/semantic-id-generator-mcp
 npm install
 
 # Start the stdio server (register this command inside Cursor/Claude)
-npx semantic-id-generator-mcp-server --default-preset dataset
+npx --package semantic-id-generator-mcp semantic-id-generator-mcp-server --default-preset dataset
 
 # Optional: drive the tools from a terminal shell
 npx semantic-id-generator-mcp-client --tool generate-semantic-id --args '{"dataConceptName":"contract","preset":"contract"}'
