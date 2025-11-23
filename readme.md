@@ -26,12 +26,11 @@
 ## Introduction
 Semantic ID Generator is a Node.js package designed to generate structured and meaningful unique identifiers, named "Semantic ID". These identifiers are composed of different "compartments" each having a specific "semantic meaning" and generation strategy.
 
-**Latest Updates (v1.1.0):**
-- ✅ **ES Module Support**: Full ES module (ESM) support with `"type": "module"`
-- ✅ **Security Updates**: All dependencies updated to latest secure versions
-- ✅ **TypeScript Support**: Enhanced TypeScript definitions and examples
-- ✅ **Performance Optimizations**: Improved string generation algorithms
-- ✅ **Comprehensive Testing**: 48+ passing tests covering all functionality
+**Latest Updates (v1.1.2):**
+- ✅ **Full-plane Unicode IDs**: “All characters” strategy now emits printable code points across the entire Unicode range while guaranteeing the configured compartment length.
+- ✅ **Safer Passphrases**: Word lists are cached once and any word containing your separators is skipped automatically to avoid malformed IDs.
+- ✅ **Cleaner TypeScript Tooling**: The `ts-node` loader now runs via a dedicated bootstrap script, eliminating experimental warnings in CI.
+- ✅ **Expanded Test Coverage**: New suites verify numeric/alphanumeric entropy, Unicode behavior, passphrase caching, and performance thresholds.
 
 ### What is a Semantic Identifier?
 A Semantic ID is an identifier that implements following AMASE data architecture principles:
